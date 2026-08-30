@@ -16,8 +16,6 @@ try {
     $PDOX = false;  // sanity-db-will re-check this below
 }
 
-if ( $PDOX !== false ) LTIX::loginSecureCookie();
-
 $R = $CFG->apphome . '/';
 $T = $CFG->wwwroot . '/';
 $set = new \Tsugi\UI\MenuSet();
