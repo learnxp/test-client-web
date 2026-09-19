@@ -22,7 +22,7 @@ if ( isset($CFG->top_menu_callback) && is_callable($CFG->top_menu_callback) ) {
     $set = call_user_func($CFG->top_menu_callback);
 } else {
     $set = new \Tsugi\UI\MenuSet();
-    $set->setHome($CFG->servicename, $CFG->apphome);
+    $set->setHome($CFG->servicename, $CFG->getHomeUrl());
 }
 $OUTPUT->topNavSession($set);
 

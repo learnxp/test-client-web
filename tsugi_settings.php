@@ -17,12 +17,18 @@ $CFG->sessionlifetime = 18*60*60;  // 18 hours
 
 $CFG->service_worker = true;
 
+// Home brand defaults to apphome unless config.php already set home_path.
+$home_path = $CFG->getExtension('home_path', false);
+if ( ! is_string($home_path) || trim($home_path) === '' ) {
+    $CFG->setExtension('home_path', $CFG->apphome);
+}
+
 $CFG->top_menu_callback = function() {
     global $CFG;
     $R = rtrim((string) $CFG->apphome, '/') . '/';
     $T = rtrim((string) $CFG->wwwroot, '/') . '/';
     $set = new \Tsugi\UI\MenuSet();
-    $set->setHome($CFG->servicename, $CFG->apphome);
+    $set->setHome($CFG->servicename, $CFG->getHomeUrl());
     if ( $CFG->google_client_id && ! \Tsugi\Util\U::isLoggedIn() ) {
         $set->addRight('Login', $R.'login');
     }
