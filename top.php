@@ -16,13 +16,31 @@ try {
     $PDOX = false;  // sanity-db-will re-check this below
 }
 
+$scriptName = basename($_SERVER['SCRIPT_FILENAME'] ?? $_SERVER['SCRIPT_NAME'] ?? '');
+$homePath = $CFG->getExtension('home_path', false);
+if ( $scriptName === 'index.php' && is_string($homePath) && trim($homePath) !== '' ) {
+    $home = $CFG->getHomeUrl();
+    $here = $CFG->getCurrentUrl();
+    $norm = function ($url) {
+        $url = rtrim((string) $url, '/');
+        if ( strlen($url) >= 10 && substr($url, -10) === '/index.php' ) {
+            $url = rtrim(substr($url, 0, -10), '/');
+        }
+        return $url;
+    };
+    if ( is_string($home) && $home !== '' && ( ! is_string($here) || $norm($here) !== $norm($home) ) ) {
+        header('Location: '.$home, true, 302);
+        exit;
+    }
+}
+
 $R = $CFG->apphome . '/';
 $T = $CFG->wwwroot . '/';
 if ( isset($CFG->top_menu_callback) && is_callable($CFG->top_menu_callback) ) {
     $set = call_user_func($CFG->top_menu_callback);
 } else {
     $set = new \Tsugi\UI\MenuSet();
-    $set->setHome($CFG->servicename, $CFG->apphome);
+    $set->setHome($CFG->servicename, $CFG->getHomeUrl());
 }
 $OUTPUT->topNavSession($set);
 
