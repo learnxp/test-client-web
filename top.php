@@ -18,10 +18,11 @@ try {
 
 $R = $CFG->apphome . '/';
 $T = $CFG->wwwroot . '/';
-$set = new \Tsugi\UI\MenuSet();
-$set->setHome($CFG->servicename, $CFG->apphome);
-if ( isset($CFG->lessons) ) {
-        $set->addLeft('Lessons', $R.'lessons');
+if ( isset($CFG->top_menu_callback) && is_callable($CFG->top_menu_callback) ) {
+    $set = call_user_func($CFG->top_menu_callback);
+} else {
+    $set = new \Tsugi\UI\MenuSet();
+    $set->setHome($CFG->servicename, $CFG->apphome);
 }
 $OUTPUT->topNavSession($set);
 

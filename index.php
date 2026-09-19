@@ -19,7 +19,7 @@ if ( strlen($CFG->servicename) > 0 ) {
 echo("</h1>\n");
 
 echo('<p><a href="tsugi">Go to the Tsugi Dashboard</a></p>'."\n");
-if ( is_string($CFG->lessons) ) {
+if ( $CFG->hasSiteLessons() ) {
 echo('<p><a href="lessons">View Lessons</a></p>'."\n");
 echo('<p><a href="tsugi/cc/">Get a Common Cartridge</a></p>'."\n");
 }
