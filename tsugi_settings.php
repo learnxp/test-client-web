@@ -29,10 +29,10 @@ $CFG->top_menu_callback = function() {
     $T = rtrim((string) $CFG->wwwroot, '/') . '/';
     $set = new \Tsugi\UI\MenuSet();
     $set->setHome($CFG->servicename, $CFG->getHomeUrl());
-    if ( $CFG->google_client_id && ! \Tsugi\Util\U::isLoggedIn() ) {
+    if ( $CFG->google_client_id && ! \Tsugi\Core\ReqScope::isLoggedInLegacy() ) {
         $set->addRight('Login', $R.'login');
     }
-    if ( $CFG->google_client_id && \Tsugi\Util\U::isLoggedIn() ) {
+    if ( $CFG->google_client_id && \Tsugi\Core\ReqScope::isLoggedInLegacy() ) {
         $submenu = new \Tsugi\UI\Menu();
         $submenu->addLink('Profile', $R.'profile');
         $submenu->addLink('Map', $R.'map');
@@ -42,7 +42,7 @@ $CFG->top_menu_callback = function() {
         $submenu->addLink('Logout', $R.'logout');
         $set->addRight(\Tsugi\UI\Output::avatarMenuTrigger(), $submenu);
     }
-    if ( \Tsugi\Util\U::isLoggedIn() && \Tsugi\Controllers\Courses::showCoursesWidget() ) {
+    if ( \Tsugi\Core\ReqScope::isLoggedInLegacy() && \Tsugi\Controllers\Courses::showCoursesWidget() ) {
         $set->addRight(
             '<tsugi-courses api-url="'. htmlspecialchars($T . 'courses/json') . '" all-url="'. htmlspecialchars($T . 'courses') . '" enter-url="'. htmlspecialchars($T . 'courses') . '"></tsugi-courses>',
             false,
