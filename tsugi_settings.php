@@ -36,6 +36,7 @@ $CFG->top_menu_callback = function() {
         $submenu = new \Tsugi\UI\Menu();
         $submenu->addLink('Profile', $R.'profile');
         $submenu->addLink('Map', $R.'map');
+        $submenu->addLink('Instructor', $T.'instructor');
         if ( isset($_COOKIE['adminmenu']) && $_COOKIE['adminmenu'] == 'true' ) {
             $submenu->addLink('Admin', $T.'admin/');
         }
